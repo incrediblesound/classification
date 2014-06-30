@@ -1,5 +1,5 @@
 var data = require('./data');
-var blackList = ['a','on','the','i','in','of','to','do','my','is','are','today','and','we']
+var blackList = ['a','on','the','i','in','of','to','me','you','do','my','is','are','today','and','we']
 
 var check = function(word){
   var result = false;
@@ -73,14 +73,11 @@ forEach(data.data, function(set){ //for each category we count the ocurrance of 
   })
 })
 
-forEach(training.happy, function(num, word){ //the num of ocurrances is turned into a percent (probability)
-  num = num/5*100;
-  training.happy[word] = num;
-})
-
-forEach(training.sad, function(num, word){
-  num = num/5*100;
-  training.sad[word] = num;
+forEach(training, function(stats, category){
+  forEach(training[category], function(num, word){
+    num = num/totals[category]*100;
+    training[category][word] = num;
+  })
 })
 
 var testArray;
