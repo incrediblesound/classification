@@ -45,14 +45,21 @@ var cleaner = function(word) {
 }
 
 //the fun starts here
-var training = {}; 
+var training = {};
 var text;
 var cleaned;
+var totals = {};
+totals.overall = 0;
 
 forEach(data.data, function(set){ //for each category we count the ocurrance of each non-blacklisted word
 	if(!training[set.cat]) { 
 		training[set.cat] = {};
-	}
+    totals[set.cat] = 1;
+    totals.overall += 1;
+	} else {
+    totals[set.cat] += 1;
+    totals.overall += 1;
+  }
   text = set.txt.split(' ');
   forEach(text, function(word){
     cleaned = cleaner(word);
@@ -79,34 +86,34 @@ forEach(training.sad, function(num, word){
 var testArray;
 var results = {};
 
-//this function creates two arrays for each test line containing the probabilities of
-//each word to occur in the happy and sad categories respectively
+//For each test line this function creates an objects with an array
+//containing the probability of each word in the test line 
+//to occur in each category
 forEach(data.tests, function(testLine, i){ 
   results[i] = {};
   results[i]['text'] = testLine;
-  results[i]['happy'] = [];
-  results[i]['sad'] = [];
   testArray = testLine.split(' ');
   forEach(testArray, function(word){
     cleaned = cleaner(word);
-    if(cleaned && (training.happy[cleaned] !== undefined)){ 
-      results[i]['happy'].push(training.happy[cleaned]);
-    }
-    if(cleaned && (training.sad[cleaned] !== undefined)){
-      results[i]['sad'].push(training.sad[cleaned]);
+    if(cleaned) { //this just checks to make sure we in fact have a word
+      forEach(training, function(stats, category){
+        if(!results[i][category]) {
+          results[i][category] = [];
+        }
+        if(training[category][cleaned] !== undefined){ 
+        results[i][category].push(training[category][cleaned]);
+        }
+      })
     }
   })
 })
 
-//finally we multiply by the probability of each category ocurring in the data set
+//then we multiply the probabilities of each word for each category together and then 
+//multiply the total by the probability of each category to occur in the data set
 forEach(results, function(testCase){
-  testCase.happy = multiply(testCase.happy)*0.5;
-  testCase.sad = multiply(testCase.sad)*0.5;
-  if(testCase.happy > testCase.sad) {
-    testCase['category'] = 'happy';
-  } else {
-    testCase['category'] = 'sad';
-  }
+  forEach(training, function(stats, category){
+    testCase[category] = multiply(testCase[category])*(totals[category]/totals.overall);  
+  })
 })
 
 console.log(results);
