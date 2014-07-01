@@ -1,5 +1,5 @@
 var data = require('./data');
-var blackList = ['a','on','the','i','in','of','to','me','you','do','my','is','are','today','and','we']
+var blackList = ['a','on','the','i','in','was','had','with','this','that','of','to','me','you','do','my','is','are','today','and','we','it']
 
 var check = function(word){
   var result = false;
@@ -54,10 +54,9 @@ totals.overall = 0;
 forEach(data.data, function(set){ //for each category we count the ocurrance of each non-blacklisted word
 	if(!training[set.cat]) { 
 		training[set.cat] = {};
-    totals[set.cat] = 1;
+    totals[set.cat] = 0;
     totals.overall += 1;
 	} else {
-    totals[set.cat] += 1;
     totals.overall += 1;
   }
   text = set.txt.split(' ');
@@ -69,10 +68,13 @@ forEach(data.data, function(set){ //for each category we count the ocurrance of 
       } else {
         training[set.cat][cleaned] += 1; 
       }
+      totals[set.cat] += 1;
     }
   })
 })
 
+//now our training object contains a list of the # of occurrances of each word in each 
+//category, we turn that number into % probability by dividing by the total word count
 forEach(training, function(stats, category){
   forEach(training[category], function(num, word){
     num = num/totals[category]*100;
