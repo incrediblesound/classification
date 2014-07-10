@@ -10,7 +10,11 @@ exports.data = [
 {cat: 'sad',txt:'I found out that I failed english and my grades are worse than I thought. I have to take a makeup class with a horrible teacher.'},
 {cat: 'sad',txt:'What a sad day, my best friend moved away. I feel like there is nothing to do no, nothing fun. It\'s a terrible feeling.'},
 {cat: 'cursing',txt:'Goddamn fucking shit, I hate this bullshit. Fuck this, this is a fucking travesty.'},
-{cat: 'cursing',txt:'This is fucking stupid. Fuck you. I hate this shit.'}
+{cat: 'cursing',txt:'This is fucking stupid. Fuck you. I hate this shit.'},
+{cat: 'cursing',txt:'What the hell are you doing? Are you insane? Goddamnit!'},
+{cat: 'cursing',txt:'Jesus Christ what an idiot, you fucking moron, where the hell did you get that idea?'},
+{cat: 'cursing',txt:'What in gods name do you think youre doing? You fucking idiot!'},
+{cat: 'cursing',txt:'Not this idiot again, what the fuck. I hate this moron.'}
 ];
 
 exports.tests = [
